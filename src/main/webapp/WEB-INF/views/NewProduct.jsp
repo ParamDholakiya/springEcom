@@ -7,7 +7,7 @@
 </head>
 <body>
 	<h2>New Product</h2>
-
+	<a href="/products">List Products</a>
 	<form action="saveproduct" method="post">
 
 		ProductName: <input type="text" name="productName" /><br>

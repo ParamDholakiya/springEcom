@@ -1,6 +1,5 @@
 package com.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,15 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bean.EProductBean;
 import com.dao.EProductDao;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 public class EProductController {
@@ -49,20 +43,20 @@ public class EProductController {
 		return "EcomListProducts";
 	}
 	
-	@WebServlet("/deleteProduct")
-	public class DeleteProductServlet extends HttpServlet {
-	    private static final long serialVersionUID = 1L;
-	    
-	    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	        String idStr = request.getParameter("id");
-	        int id = Integer.parseInt(idStr);
-
-	        EProductDao productDAO = new EProductDao();
-	        productDAO.deleteProduct(id);
-	        
-	        // Redirect back to the products list page after deletion
-	        response.sendRedirect("redirect:/products");
-	    }
+	@GetMapping("/deleteProduct")
+	public String deleteProduct(@RequestParam("productId") Integer productId) {
+		productDao.deleteProduct(productId);
+		return "redirect:/products";
+	}
+	
+	@GetMapping("/deleteProductByName")
+	public String deleteProductByName() {
+		return "deleteProductByName";
+	}
+	@PostMapping("/deleteProductByNameController")
+	public String deleteProductByName(@RequestParam("productName") String productName) {
+		productDao.deleteWithName(productName);
+		return "redirect:/products";
 	}
 
 	
